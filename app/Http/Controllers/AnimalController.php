@@ -53,7 +53,9 @@ class AnimalController extends Controller
 
         $request->session()->put('animales', $animales);
 
-        return redirect()->route('animales.index');
+        return redirect()
+            ->route('animales.index')
+            ->with('success', 'Animal registrado correctamente.');
     }
 
     /**
@@ -97,7 +99,9 @@ class AnimalController extends Controller
 
         $request->session()->put('animales', $animales);
 
-        return redirect()->route('animales.index');
+        return redirect()
+            ->route('animales.index')
+            ->with('success', 'Animal actualizado correctamente.');
     }
 
     /**
@@ -116,7 +120,9 @@ class AnimalController extends Controller
 
         $request->session()->put('animales', array_values($animales));
 
-        return redirect()->route('animales.index');
+        return redirect()
+            ->route('animales.index')
+            ->with('success', 'Animal eliminado correctamente.');
     }
 
 }

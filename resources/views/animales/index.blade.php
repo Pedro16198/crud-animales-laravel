@@ -7,6 +7,12 @@
 ```
 <h2>Listado de Animales</h2>
 
+@if (session('success'))
+    <p>
+        {{ session('success') }}
+    </p>
+@endif
+
 @if (empty($animales))
     <p>No hay animales registrados.</p>
 @else
