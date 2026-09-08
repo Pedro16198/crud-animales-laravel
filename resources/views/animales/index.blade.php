@@ -25,6 +25,7 @@
                     action="{{ route('animales.destroy', $animal['id']) }}"
                     method="POST"
                     style="display: inline;"
+                    onsubmit="return confirm('¿Está seguro de eliminar este animal?');"
                 >
                     @csrf
                     @method('DELETE')
