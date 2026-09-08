@@ -38,8 +38,12 @@ class AnimalController extends Controller
 
         $animales = $request->session()->get('animales', []);
 
+        $ultimoId = empty($animales)
+        ? 0
+        : max(array_column($animales, 'id'));
+
         $animal = [
-            'id' => count($animales) + 1,
+            'id' => $ultimoId + 1,
             'nombre' => $datos['nombre'],
             'especie' => $datos['especie'],
             'edad' => $datos['edad'],
