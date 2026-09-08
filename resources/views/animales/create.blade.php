@@ -8,7 +8,7 @@
 <h2>Registrar Animal</h2>
 
 @if ($errors->any())
-    <div>
+    <div class="errores">
         <strong>Se encontraron los siguientes errores:</strong>
 
         <ul>
@@ -22,52 +22,50 @@
 <form action="{{ route('animales.store') }}" method="POST">
     @csrf
 
-    <div>
+    <div class="campo">
         <label for="nombre">Nombre:</label>
         <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        value="{{ old('nombre') }}"
-        required
-    >
+            type="text"
+            id="nombre"
+            name="nombre"
+            value="{{ old('nombre') }}"
+            required
+        >
     </div>
 
-    <br>
-
-    <div>
+    <div class="campo">
         <label for="especie">Especie:</label>
         <input
-        type="text"
-        id="especie"
-        name="especie"
-        value="{{ old('especie') }}"
-        required
-    >
+            type="text"
+            id="especie"
+            name="especie"
+            value="{{ old('especie') }}"
+            required
+        >
     </div>
 
-    <br>
-
-    <div>
+    <div class="campo">
         <label for="edad">Edad:</label>
         <input
-        type="number"
-        id="edad"
-        name="edad"
-        value="{{ old('edad') }}"
-        min="0"
-        required
-    >
+            type="number"
+            id="edad"
+            name="edad"
+            value="{{ old('edad') }}"
+            min="0"
+            required
+        >
     </div>
 
-    <br>
-
-    <button type="submit">Guardar Animal</button>
+    <button type="submit">
+        Guardar Animal
+    </button>
 </form>
 
 <br>
 
-<a href="{{ route('animales.index') }}">Volver al listado</a>
+<a href="{{ route('animales.index') }}">
+    Volver al listado
+</a>
 ```
 
 @endsection

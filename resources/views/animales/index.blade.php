@@ -8,46 +8,51 @@
 <h2>Listado de Animales</h2>
 
 @if (session('success'))
-    <p>
+    <div class="mensaje-exito">
         {{ session('success') }}
-    </p>
+    </div>
 @endif
 
 @if (empty($animales))
     <p>No hay animales registrados.</p>
 @else
-    <ul>
+    <ul class="lista-animales">
         @foreach ($animales as $animal)
-            <li>
-                {{ $animal['nombre'] }} -
-                {{ $animal['especie'] }} -
-                {{ $animal['edad'] }} años
+            <li class="animal">
 
-                <a href="{{ route('animales.edit', $animal['id']) }}">
-                    Editar
-                </a>
+                <strong>{{ $animal['nombre'] }}</strong>
+                - {{ $animal['especie'] }}
+                - {{ $animal['edad'] }} años
 
-                <form
-                    action="{{ route('animales.destroy', $animal['id']) }}"
-                    method="POST"
-                    style="display: inline;"
-                    onsubmit="return confirm('¿Está seguro de eliminar este animal?');"
-                >
-                    @csrf
-                    @method('DELETE')
+                <div class="acciones">
+                    <a href="{{ route('animales.edit', $animal['id']) }}">
+                        Editar
+                    </a>
 
-                    <button type="submit">
-                        Eliminar
-                    </button>
-                </form>
+                    <form
+                        action="{{ route('animales.destroy', $animal['id']) }}"
+                        method="POST"
+                        style="display: inline;"
+                        onsubmit="return confirm('¿Está seguro de eliminar este animal?');"
+                    >
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
+
             </li>
         @endforeach
     </ul>
 @endif
 
-<br>
-
-<a href="{{ route('animales.create') }}">
+<a
+    href="{{ route('animales.create') }}"
+    class="boton-principal"
+>
     Registrar nuevo animal
 </a>
 ```
