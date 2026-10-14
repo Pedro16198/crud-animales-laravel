@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Contracts\AnimalServiceInterface;
 
 class AnimalController extends Controller
 {
+    public function __construct(private AnimalServiceInterface $animalService)
+    {
+    }
+
     /**
     Listado de animales
     */
 
-    public function index(Request $request)
+    public function index()
     {
-        $animales = $request->session()->get('animales', []);
+        $animals = $this->animalService->all();
 
-        return view('animales.index', compact('animales'));
+        return view('animales.index', compact('animals'));
+
     }
 
     /**
@@ -31,27 +37,12 @@ class AnimalController extends Controller
     public function store(Request $request)
     {
         $datos = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'especie' => 'required|string|max:100',
-            'edad' => 'required|integer|min:0',
+            'name' => 'required|string|max:100',
+            'species' => 'required|string|max:100',
+            'age' => 'required|integer|min:0',
         ]);
 
-        $animales = $request->session()->get('animales', []);
-
-        $ultimoId = empty($animales)
-        ? 0
-        : max(array_column($animales, 'id'));
-
-        $animal = [
-            'id' => $ultimoId + 1,
-            'nombre' => $datos['nombre'],
-            'especie' => $datos['especie'],
-            'edad' => $datos['edad'],
-        ];
-
-        $animales[] = $animal;
-
-        $request->session()->put('animales', $animales);
+        $this->animalService->create($datos);
 
         return redirect()
             ->route('animales.index')
@@ -63,15 +54,13 @@ class AnimalController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $animales = $request->session()->get('animales', []);
+        $animal = $this->animalService->find($id);
 
-        foreach ($animales as $animal) {
-            if ($animal['id'] == $id) {
-                return view('animales.edit', compact('animal'));
-            }
+        if ($animal === null) {
+            abort(404);
         }
 
-        return redirect()->route('animales.index');
+        return view('animales.edit', compact('animal'));
     }
 
     /**
@@ -80,24 +69,16 @@ class AnimalController extends Controller
     public function update(Request $request, $id)
     {
         $datos = $request->validate([
-            'nombre' => 'required|string|max:100',
-            'especie' => 'required|string|max:100',
-            'edad' => 'required|integer|min:0',
+            'name' => 'required|string|max:100',
+            'species' => 'required|string|max:100',
+            'age' => 'required|integer|min:0',
         ]);
 
-        $animales = $request->session()->get('animales', []);
+        $animal = $this->animalService->update($id, $datos);
 
-        foreach ($animales as $key => $animal) {
-            if ($animal['id'] == $id) {
-                $animales[$key]['nombre'] = $datos['nombre'];
-                $animales[$key]['especie'] = $datos['especie'];
-                $animales[$key]['edad'] = $datos['edad'];
-
-                break;
-            }
+        if ($animal === null) {
+            abort(404);
         }
-
-        $request->session()->put('animales', $animales);
 
         return redirect()
             ->route('animales.index')
@@ -109,16 +90,11 @@ class AnimalController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $animales = $request->session()->get('animales', []);
+        $animal = $this->animalService->delete($id);
 
-        foreach ($animales as $key => $animal) {
-            if ($animal['id'] == $id) {
-                unset($animales[$key]);
-                break;
-            }
+        if ($animal === null) {
+            abort(404);
         }
-
-        $request->session()->put('animales', array_values($animales));
 
         return redirect()
             ->route('animales.index')
