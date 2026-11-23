@@ -11,7 +11,10 @@ class SQLAnimalService implements AnimalServiceInterface
     public function all(): array
     {
 
-        $rows = DB::select('SELECT id, name, species, age FROM animals ORDER BY id ASC');
+        $rows = DB::select('SELECT animals.id as id, animals.name as name, species_id, animals.age as age
+                            FROM animals JOIN species
+                            ON animals.species_id = species.id
+                            ORDER BY animals.id ASC');
 
         return array_map(function ($row)
         {
@@ -21,7 +24,10 @@ class SQLAnimalService implements AnimalServiceInterface
 
     public function find(string $id): array
     {
-        $row = DB::selectOne('SELECT id, name, species, age FROM animals WHERE id = ?', [$id]);
+        $row = DB::selectOne('SELECT animals.id as id, animals.name as name, species_id, animals.age as age
+                            FROM animals JOIN species
+                            on animals.species_id = species.id
+                            WHERE animals.id = ?', [$id]);
     
         if (!$row) {
             throw new AnimalNotFoundException("Animal with ID {$id} not found.");
@@ -32,8 +38,8 @@ class SQLAnimalService implements AnimalServiceInterface
 
     public function create(array $data): array
     {
-        DB::insert('INSERT INTO animals (name, species, age) VALUES (?, ?, ?)',
-         [$data['name'], $data['species'], (int) $data['age']]
+        DB::insert('INSERT INTO animals (name, species_id, age) VALUES (?, ?, ?)',
+         [$data['name'], $data['species_id'], (int) $data['age']]
          );
 
          $result = DB::selectOne('SELECT last_insert_rowid() AS id');
@@ -47,8 +53,8 @@ class SQLAnimalService implements AnimalServiceInterface
     {
         $this->find($id);
 
-        DB::update('UPDATE animals SET name = ?, species = ?, age = ? WHERE id = ?',
-         [$data['name'], $data['species'], (int) $data['age'], $id]
+        DB::update('UPDATE animals SET name = ?, species_id = ?, age = ? WHERE id = ?',
+         [$data['name'], $data['species_id'], (int) $data['age'], $id]
          );
 
         return $this->find($id);

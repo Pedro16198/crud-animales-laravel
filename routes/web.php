@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\SpeciesController;
+
+// para la gestión de animales
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,3 +27,18 @@ Route::put('/animales/{id}', [AnimalController::class, 'update'])
 
 Route::delete('/animales/{id}', [AnimalController::class, 'destroy'])
     ->name('animales.destroy');
+
+
+// para la gestión de especies
+
+Route::get('/species', [SpeciesController::class, 'index'])->name('species.index');
+
+Route::get('/species/create', [SpeciesController::class, 'create'])->name('species.create');
+
+Route::post('/species', [SpeciesController::class, 'store'])->name('species.store');
+
+Route::get('/species/{id}/edit', [SpeciesController::class, 'edit'])->name('species.edit');
+
+Route::put('/species/{id}', [SpeciesController::class, 'update'])->name('species.update');
+
+Route::delete('/species/{id}', [SpeciesController::class, 'destroy'])->name('species.destroy');

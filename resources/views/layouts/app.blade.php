@@ -1,136 +1,291 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>@yield('title', 'Gestión de Animales')</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
+    <title>@yield('title', 'Animales y Especies')</title>
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f4f6f8;
-        color: #333;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    header {
-        background-color: #2c3e50;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
 
-    header h1 {
-        margin: 0;
-    }
+        .navbar {
+            background: #1e293b;
+            color: white;
+            padding: 18px 40px;
+        }
 
-    main {
-        max-width: 900px;
-        margin: 30px auto;
-        padding: 0 20px;
-    }
+        .navbar-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-    h2 {
-        margin-bottom: 20px;
-    }
+        .brand {
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-    .mensaje-exito {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-        padding: 12px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-    }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .lista-animales {
-        list-style: none;
-        padding: 0;
-    }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+        }
 
-    .animal {
-        background-color: white;
-        border: 1px solid #ddd;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-    }
+        .nav-link:hover,
+        .nav-link.active {
+            background: #334155;
+        }
 
-    .acciones {
-        margin-top: 10px;
-    }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-    .acciones a,
-    button {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        text-decoration: none;
-    }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
 
-    .acciones a {
-        background-color: #3498db;
-        color: white;
-    }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
 
-    .acciones button {
-        background-color: #e74c3c;
-        color: white;
-    }
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-    .boton-principal {
-        display: inline-block;
-        background-color: #27ae60;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 4px;
-        text-decoration: none;
-    }
+        .page-header p {
+            color: #64748b;
+            margin-bottom: 0;
+        }
 
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-    .campo {
-        margin-bottom: 15px;
-    }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
 
-    .errores {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-        padding: 12px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-    }
-</style>
-```
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
 
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .alert {
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .error {
+            margin-top: 6px;
+            color: #dc2626;
+            font-size: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 18px 20px;
+            }
+
+            .navbar-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+            }
+
+            .container {
+                margin: 24px auto;
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-```
-<header>
-    <h1>Gestión de Animales</h1>
-</header>
+    <nav class="navbar">
+        <div class="navbar-content">
 
-<main>
-    @yield('content')
-</main>
-```
+            <div class="brand">
+                Animales y Especies
+            </div>
+
+            <div class="nav-links">
+
+                <a
+                    href="{{ route('animales.index') }}"
+                    class="nav-link {{ request()->routeIs('animales.*') ? 'active' : '' }}"
+                >
+                    Animales
+                </a>
+
+                <a
+                    href="{{ route('species.index') }}"
+                    class="nav-link {{ request()->routeIs('species.*') ? 'active' : '' }}"
+                >
+                    Especies
+                </a>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="container">
+
+        @if (session('success'))
+            <div class="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @yield('content')
+
+    </main>
 
 </body>
 </html>

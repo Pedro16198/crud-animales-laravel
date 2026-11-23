@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contracts\AnimalServiceInterface;
+use App\Contracts\SpeciesServiceInterface;
 
 class AnimalController extends Controller
 {
-    public function __construct(private AnimalServiceInterface $animalService)
+    public function __construct(
+        private AnimalServiceInterface $animalService,
+        private SpeciesServiceInterface $speciesService
+    )
     {
     }
 
@@ -28,7 +32,8 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        return view('animales.create');
+        $species = $this->speciesService->all();
+        return view('animales.create', compact('species'));
     }
 
     /**
@@ -38,7 +43,7 @@ class AnimalController extends Controller
     {
         $datos = $request->validate([
             'name' => 'required|string|max:100',
-            'species' => 'required|string|max:100',
+            'species_id' => 'required|exists:species,id',
             'age' => 'required|integer|min:0',
         ]);
 
@@ -54,13 +59,14 @@ class AnimalController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $species = $this->speciesService->all();
         $animal = $this->animalService->find($id);
 
         if ($animal === null) {
             abort(404);
         }
 
-        return view('animales.edit', compact('animal'));
+        return view('animales.edit', compact('animal', 'species'));
     }
 
     /**
@@ -70,7 +76,7 @@ class AnimalController extends Controller
     {
         $datos = $request->validate([
             'name' => 'required|string|max:100',
-            'species' => 'required|string|max:100',
+            'species_id' => 'required|exists:species,id',
             'age' => 'required|integer|min:0',
         ]);
 

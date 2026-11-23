@@ -1,69 +1,110 @@
+
 @extends('layouts.app')
 
-@section('title', 'Crear Animal')
+@section('title', 'Registrar Animal')
 
 @section('content')
 
-<h2>Registrar Animal</h2>
+<div class="card">
 
-@if ($errors->any())
-    <div class="errores">
-        <strong>Se encontraron los siguientes errores:</strong>
-
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-<form action="{{ route('animales.store') }}" method="POST">
-    @csrf
-
-    <div class="campo">
-        <label for="nombre">Nombre:</label>
-        <input
-            type="text"
-            id="name"
-            name="name"
-            value="{{ old('name') }}"
-            required
-        >
+    <div class="page-header">
+        <div>
+            <h1>Registrar animal</h1>
+            <p>Completar los datos del nuevo animal</p>
+        </div>
     </div>
 
-    <div class="campo">
-        <label for="especie">Especie:</label>
-        <input
-            type="text"
-            id="species"
-            name="species"
-            value="{{ old('species') }}"
-            required
-        >
-    </div>
+    @if ($errors->any())
+        <div class="alert alert-error">
+            <strong>Revisá los siguientes errores:</strong>
 
-    <div class="campo">
-        <label for="edad">Edad:</label>
-        <input
-            type="number"
-            id="age"
-            name="age"
-            value="{{ old('age') }}"
-            min="0"
-            required
-        >
-    </div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <button type="submit">
-        Guardar Animal
-    </button>
-</form>
+    <form
+        action="{{ route('animales.store') }}"
+        method="POST"
+    >
+        @csrf
 
-<br>
+        <div class="form-group">
+            <label for="name">Nombre</label>
 
-<a href="{{ route('animales.index') }}">
-    Volver al listado
-</a>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                value="{{ old('name') }}"
+                placeholder="Ingrese el nombre del animal"
+                required
+            >
+
+            @error('name')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="species">Especie</label>
+
+            <select
+                id="species_id"
+                name="species_id"
+                class="form-control"
+                required
+            >
+                <option value="">Seleccione una especie</option>
+                @foreach ($species as $specie)
+                    <option value="{{ $specie['id'] }}" {{ old('species_id') == $specie['id'] ? 'selected' : '' }}>
+                        {{ $specie['name'] }}
+                    </option>
+                @endforeach
+            </select>
+
+            @error('species_id')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="age">Edad</label>
+
+            <input
+                type="number"
+                id="age"
+                name="age"
+                class="form-control"
+                value="{{ old('age') }}"
+                min="0"
+                placeholder="Ingrese la edad"
+                required
+            >
+
+            @error('age')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Guardar animal
+            </button>
+
+            <a
+                href="{{ route('animales.index') }}"
+                class="btn btn-secondary"
+            >
+                Cancelar
+            </a>
+        </div>
+    </form>
+
+</div>
 
 @endsection
