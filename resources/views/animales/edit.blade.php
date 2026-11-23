@@ -4,7 +4,6 @@
 
 @section('content')
 
-```
 <h2>Editar Animal</h2>
 
 @if ($errors->any())
@@ -27,9 +26,9 @@
         <label for="nombre">Nombre:</label>
         <input
             type="text"
-            id="nombre"
-            name="nombre"
-            value="{{ $animal['nombre'] }}"
+            id="name"
+            name="name"
+            value="{{ $animal['name'] }}"
             required
         >
     </div>
@@ -40,9 +39,9 @@
         <label for="especie">Especie:</label>
         <input
             type="text"
-            id="especie"
-            name="especie"
-            value="{{ $animal['especie'] }}"
+            id="species"
+            name="species"
+            value="{{ $animal['species'] }}"
             required
         >
     </div>
@@ -53,9 +52,9 @@
         <label for="edad">Edad:</label>
         <input
             type="number"
-            id="edad"
-            name="edad"
-            value="{{ $animal['edad'] }}"
+            id="age"
+            name="age"
+            value="{{ $animal['age'] }}"
             min="0"
             required
         >
@@ -69,6 +68,5 @@
 <br>
 
 <a href="{{ route('animales.index') }}">Volver al listado</a>
-```
 
 @endsection

@@ -4,7 +4,6 @@
 
 @section('content')
 
-```
 <h2>Registrar Animal</h2>
 
 @if ($errors->any())
@@ -26,9 +25,9 @@
         <label for="nombre">Nombre:</label>
         <input
             type="text"
-            id="nombre"
-            name="nombre"
-            value="{{ old('nombre') }}"
+            id="name"
+            name="name"
+            value="{{ old('name') }}"
             required
         >
     </div>
@@ -37,9 +36,9 @@
         <label for="especie">Especie:</label>
         <input
             type="text"
-            id="especie"
-            name="especie"
-            value="{{ old('especie') }}"
+            id="species"
+            name="species"
+            value="{{ old('species') }}"
             required
         >
     </div>
@@ -48,9 +47,9 @@
         <label for="edad">Edad:</label>
         <input
             type="number"
-            id="edad"
-            name="edad"
-            value="{{ old('edad') }}"
+            id="age"
+            name="age"
+            value="{{ old('age') }}"
             min="0"
             required
         >
@@ -66,6 +65,5 @@
 <a href="{{ route('animales.index') }}">
     Volver al listado
 </a>
-```
 
 @endsection

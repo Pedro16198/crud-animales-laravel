@@ -4,7 +4,6 @@
 
 @section('content')
 
-```
 <h2>Listado de Animales</h2>
 
 @if (session('success'))
@@ -13,16 +12,16 @@
     </div>
 @endif
 
-@if (empty($animales))
+@if (empty($animals))
     <p>No hay animales registrados.</p>
 @else
     <ul class="lista-animales">
-        @foreach ($animales as $animal)
+        @foreach ($animals as $animal)
             <li class="animal">
 
-                <strong>{{ $animal['nombre'] }}</strong>
-                - {{ $animal['especie'] }}
-                - {{ $animal['edad'] }} años
+                <strong>{{ $animal['name'] }}</strong>
+                - {{ $animal['species'] }}
+                - {{ $animal['age'] }} años
 
                 <div class="acciones">
                     <a href="{{ route('animales.edit', $animal['id']) }}">
@@ -55,6 +54,5 @@
 >
     Registrar nuevo animal
 </a>
-```
 
 @endsection
