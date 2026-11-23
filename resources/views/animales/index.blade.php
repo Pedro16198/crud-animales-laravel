@@ -1,58 +1,97 @@
+
 @extends('layouts.app')
 
-@section('title', 'Listado de Animales')
+@section('title', 'Animales')
 
 @section('content')
 
-<h2>Listado de Animales</h2>
+<div class="card">
 
-@if (session('success'))
-    <div class="mensaje-exito">
-        {{ session('success') }}
+    <div class="page-header">
+
+        <div>
+            <h1>Animales</h1>
+            <p>Administración de animales registrados</p>
+        </div>
+
+        <a
+            href="{{ route('animales.create') }}"
+            class="btn btn-primary"
+        >
+            + Registrar animal
+        </a>
+
     </div>
-@endif
 
-@if (empty($animals))
-    <p>No hay animales registrados.</p>
-@else
-    <ul class="lista-animales">
-        @foreach ($animals as $animal)
-            <li class="animal">
+    @if (count($animals) > 0)
 
-                <strong>{{ $animal['name'] }}</strong>
-                - {{ $animal['species'] }}
-                - {{ $animal['age'] }} años
+        <div class="table-container">
+            <table>
 
-                <div class="acciones">
-                    <a href="{{ route('animales.edit', $animal['id']) }}">
-                        Editar
-                    </a>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Especie</th>
+                        <th>Edad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
 
-                    <form
-                        action="{{ route('animales.destroy', $animal['id']) }}"
-                        method="POST"
-                        style="display: inline;"
-                        onsubmit="return confirm('¿Está seguro de eliminar este animal?');"
-                    >
-                        @csrf
-                        @method('DELETE')
+                <tbody>
+                    @foreach ($animals as $animal)
 
-                        <button type="submit">
-                            Eliminar
-                        </button>
-                    </form>
-                </div>
+                        <tr>
+                            <td>{{ $animal['id'] }}</td>
 
-            </li>
-        @endforeach
-    </ul>
-@endif
+                            <td>{{ $animal['name'] }}</td>
 
-<a
-    href="{{ route('animales.create') }}"
-    class="boton-principal"
->
-    Registrar nuevo animal
-</a>
+                            <td>{{ $animal['species_id'] }}</td>
+
+                            <td>{{ $animal['age'] }} años</td>
+
+                            <td>
+                                <div class="actions">
+
+                                    <a
+                                        href="{{ route('animales.edit', $animal['id']) }}"
+                                        class="btn btn-warning"
+                                    >
+                                        Editar
+                                    </a>
+
+                                    <form
+                                        action="{{ route('animales.destroy', $animal['id']) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('¿Está seguro de eliminar este animal?');"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-danger"
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    @endforeach
+                </tbody>
+
+            </table>
+        </div>
+
+    @else
+
+        <p>No hay animales registrados.</p>
+
+    @endif
+
+</div>
 
 @endsection
