@@ -1,72 +1,109 @@
+
 @extends('layouts.app')
 
 @section('title', 'Editar Animal')
 
 @section('content')
 
-<h2>Editar Animal</h2>
+<div class="card">
 
-@if ($errors->any())
-    <div>
-        <strong>Se encontraron los siguientes errores:</strong>
-
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-<form action="{{ route('animales.update', $animal['id']) }}" method="POST">
-    @csrf
-    @method('PUT')
-
-    <div>
-        <label for="nombre">Nombre:</label>
-        <input
-            type="text"
-            id="name"
-            name="name"
-            value="{{ $animal['name'] }}"
-            required
-        >
+    <div class="page-header">
+        <div>
+            <h1>Editar animal</h1>
+            <p>Modificar los datos del animal seleccionado</p>
+        </div>
     </div>
 
-    <br>
+    @if ($errors->any())
+        <div class="alert alert-error">
+            <strong>Revisá los siguientes errores:</strong>
 
-    <div>
-        <label for="especie">Especie:</label>
-        <input
-            type="text"
-            id="species"
-            name="species"
-            value="{{ $animal['species'] }}"
-            required
-        >
-    </div>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <br>
+    <form
+        action="{{ route('animales.update', $animal['id']) }}"
+        method="POST"
+    >
+        @csrf
+        @method('PUT')
 
-    <div>
-        <label for="edad">Edad:</label>
-        <input
-            type="number"
-            id="age"
-            name="age"
-            value="{{ $animal['age'] }}"
-            min="0"
-            required
-        >
-    </div>
+        <div class="form-group">
+            <label for="name">Nombre</label>
 
-    <br>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-control"
+                value="{{ old('name', $animal['name']) }}"
+                required
+            >
 
-    <button type="submit">Actualizar Animal</button>
-</form>
+            @error('name')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
 
-<br>
+        <div class="form-group">
+            <label for="species">Especie</label>
 
-<a href="{{ route('animales.index') }}">Volver al listado</a>
+            <select
+                id="species_id"
+                name="species_id"
+                class="form-control"
+                required
+            >
+                <option value="">Seleccione una especie</option>
+                @foreach ($species as $specie)
+                    <option value="{{ $specie['id'] }}" {{ old('species_id', $animal['species_id']) == $specie['id'] ? 'selected' : '' }}>
+                        {{ $specie['name'] }}
+                    </option>
+                @endforeach
+            </select>
+
+            @error('species_id')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="age">Edad</label>
+
+            <input
+                type="number"
+                id="age"
+                name="age"
+                class="form-control"
+                value="{{ old('age', $animal['age']) }}"
+                min="0"
+                required
+            >
+
+            @error('age')
+                <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Actualizar animal
+            </button>
+
+            <a
+                href="{{ route('animales.index') }}"
+                class="btn btn-secondary"
+            >
+                Cancelar
+            </a>
+        </div>
+    </form>
+
+</div>
 
 @endsection

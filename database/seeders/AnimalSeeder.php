@@ -14,14 +14,14 @@ class AnimalSeeder extends Seeder
     public function run(): void
     {
         $animals = [
-            ['name' => 'Milo', 'species' => 'Perro', 'age' => 5],
-            ['name' => 'Luna', 'species' => 'Gato', 'age' => 2],
-            ['name' => 'Paco', 'species' => 'Loro', 'age' => 12],
+            ['name' => 'Milo', 'species_id' => 1, 'age' => 5],
+            ['name' => 'Luna', 'species_id' => 2, 'age' => 2],
+            ['name' => 'Paco', 'species_id' => 3, 'age' => 12],
         ];
 
         foreach ($animals as $a) {
-         DB::insert( 'INSERT INTO animals (name, species, age) VALUES (?, ?, ?)',
-         [$a['name'], $a['species'], $a['age']]
+         DB::insert( 'INSERT INTO animals (name, species_id, age) VALUES (?, ?, ?)',
+         [$a['name'], $a['species_id'], $a['age']]
          );
         }
 
